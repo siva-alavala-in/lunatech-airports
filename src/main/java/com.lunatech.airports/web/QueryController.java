@@ -7,18 +7,16 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Collections;
-
-@Controller
 @Slf4j
+@Controller
 public class QueryController {
 
     @Autowired
-    CountryRepository countryRepository;
+    private CountryRepository countryRepository;
 
     Country fetchCountry(@NonNull String countryParam) {
         Country country = countryRepository.findByCode(countryParam);
@@ -31,9 +29,12 @@ public class QueryController {
     }
 
     @RequestMapping("/query")
-    public ModelAndView query(@RequestParam(value = "country", required = false) String countryParam) {
-        Country country = StringUtils.isEmpty(countryParam) ? null : fetchCountry(countryParam);
-        return new ModelAndView("abc", Collections.singletonMap("country", country));
+    public String query(@RequestParam(value = "country", required = false) String countryParam, Model model) {
+        log.info("Query for {}", countryParam);
+        if (!StringUtils.isEmpty(countryParam)) {
+            model.addAttribute("country", fetchCountry(countryParam));
+        }
+        return "query";
     }
 
 }
