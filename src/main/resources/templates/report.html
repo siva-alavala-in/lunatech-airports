@@ -35,12 +35,14 @@
                 <tr>
                     <th>Country</th>
                     <th>Runway Types</th>
+                    <th>Top 10 Runway Identifications</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="r : ${rs.value}">
                     <td th:text="${r.country.name}">Coutry</td>
-                    <td th:text="${r.runways}">Runways</td>
+                    <td th:text="${r.runways}">Runway Types</td>
+                    <td th:text="${r.runwayIdentifications}">Top 10 Runway Identifications</td>
                 </tr>
                 </tbody>
             </table>

@@ -14,8 +14,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Slf4j
 @Controller
@@ -26,6 +26,7 @@ public class ReportController {
         public final Country country;
         public Set<String> runways = new HashSet<>();
         public Set<String> runwayIdentifications = new HashSet<>();
+
         CountryRunwayStats(Country country) {
             this.country = country;
         }
@@ -59,11 +60,10 @@ public class ReportController {
         fattenCountries(countries);
         return countries.stream().map(c -> {
             CountryRunwayStats stats = new CountryRunwayStats(c);
-            Stream<Runway> countryRunways = c.getAirports().stream().flatMap(a -> a.getRunways().stream());
-            stats.runways = countryRunways.map(r -> r.getSurface()).filter(r -> !r.isEmpty()).collect(Collectors.toSet());
-            // Map<Long, String> identificationCountMap = new TreeMap<>();
-            // countryRunways.map(r -> r.getLe_ident()).collect(Collectors.groupingBy(Function.identity(), Collectors.counting())).forEach((x, y) -> identificationCountMap.);
-            // stats.runwayIdentifications = null;
+            // Runway Surfaces
+            List<Runway> countryRunways = c.getAirports().stream().flatMap(a -> a.getRunways().stream()).collect(Collectors.toList());
+            stats.runways = runwaySurfaces(countryRunways);
+            stats.runwayIdentifications = topTenIdentifications(countryRunways);
             return stats;
         }).collect(Collectors.toList());
     }
@@ -102,13 +102,24 @@ public class ReportController {
         Map<Long, List<Runway>> runways = runwaysForCountries(countries);
         return countries.stream().map(c -> {
             CountryRunwayStats stats = new CountryRunwayStats(c);
-            Stream<Runway> countryRunways = runways.get(c.getId()).stream();
-            stats.runways = countryRunways.map(r -> r.getSurface()).filter(r -> !r.isEmpty()).collect(Collectors.toSet());
-            // Map<Long, String> identificationCountMap = new TreeMap<>();
-            // countryRunways.map(r -> r.getLe_ident()).collect(Collectors.groupingBy(Function.identity(), Collectors.counting())).forEach((x, y) -> identificationCountMap.);
-            // stats.runwayIdentifications = null;
+            List<Runway> countryRunways = runways.get(c.getId());
+            stats.runways = runwaySurfaces(countryRunways);
+            stats.runwayIdentifications = topTenIdentifications(countryRunways);
             return stats;
         }).collect(Collectors.toList());
+    }
+
+    private Set<String> runwaySurfaces(List<Runway> runways) {
+        return runways.stream().map(r -> r.getSurface()).filter(r -> !r.isEmpty()).collect(Collectors.toSet());
+    }
+
+
+    private Set<String> topTenIdentifications(List<Runway> runways) {
+        // Top 10 Runway Identifications
+        Map<String, Long> identificationCounts = runways.stream().map(r -> r.getLe_ident()).collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+        List<Map.Entry<String, Long>> ic = new ArrayList<>(identificationCounts.entrySet());
+        ic.sort((x, y) -> (int) (x.getValue() - y.getValue()));
+        return ic.stream().limit(10).map(Map.Entry::getKey).collect(Collectors.toSet());
     }
 
 

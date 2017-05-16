@@ -31,6 +31,14 @@ public class CountryService {
         if (country == null) {
             country = countryRepository.findByLowerCaseCode(countryParam.toLowerCase());
         }
+        if (country == null) {
+            // Bonus handling
+            // If prefix matches only one country, return the same
+            List<String> names = countryNamesWithPrefix(countryParam);
+            if (names.size() == 1) {
+                country = countryRepository.findByLowerCaseName(names.get(0).toLowerCase());
+            }
+        }
         return Optional.ofNullable(country);
     }
 
