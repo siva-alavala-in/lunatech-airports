@@ -6,6 +6,12 @@ Lunatech Labs Assignment
 mvn spring-boot:run
 ```
 
-## Busy with
-1. Bonus features
-2. Improving report performance
+## Bonus features implemented
+1. Partial/fuzzy Country Name
+2. Top 10 most common runway identifications
+
+## Frameworks/Toolkits
+1. Spring Boot
+2. Spring Data JPA
+3. Spring MVC
+4. Lombok
