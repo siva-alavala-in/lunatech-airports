@@ -20,31 +20,15 @@
         </div>
         <ul class="nav navbar-nav">
             <li><a href="/query">Query</a></li>
-            <li class="active"><a href="/report">Report</a></li>
+            <li><a href="/report">Report</a></li>
         </ul>
     </div>
 </nav>
 
 
 <div class="container">
-    <div th:each="rs : ${results}">
-        <h2 th:text="${rs.key}"></h2>
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>Country</th>
-                <th>Runways</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="r : ${rs.value}">
-                <td th:text="${r.country.name}">Coutry</td>
-                <td th:text="${r.runways}">Runways</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
 </div>
+
 </body>
 
 </html>
