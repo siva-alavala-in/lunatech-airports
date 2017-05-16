@@ -13,7 +13,7 @@ public interface AirportRepository extends CrudRepository<Airport, Long> {
     List<Airport> findByCountryIdIn(List<Long> countryId);
 
     @Query("SELECT a.countryId FROM Airport a GROUP BY a.countryId ORDER BY COUNT(a) DESC")
-    List<Long> countriesWithHighestNumberOfAirports();
+    List<Long> countriesWithMostNumberOfAirports();
 
     @Query("SELECT a.countryId FROM Airport a GROUP BY a.countryId ORDER BY COUNT(a) ASC")
     List<Long> countriesWithLeastNumberOfAirports();

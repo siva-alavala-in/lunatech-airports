@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <title>Reports</title>
+    <title>Report</title>
 </head>
 
 <body>
@@ -29,20 +29,22 @@
 <div class="container">
     <div th:each="rs : ${results}">
         <h2 th:text="${rs.key}"></h2>
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>Country</th>
-                <th>Runways</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="r : ${rs.value}">
-                <td th:text="${r.country.name}">Coutry</td>
-                <td th:text="${r.runways}">Runways</td>
-            </tr>
-            </tbody>
-        </table>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Country</th>
+                    <th>Runway Types</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="r : ${rs.value}">
+                    <td th:text="${r.country.name}">Coutry</td>
+                    <td th:text="${r.runways}">Runways</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 </body>

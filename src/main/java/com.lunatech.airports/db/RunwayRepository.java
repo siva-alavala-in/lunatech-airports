@@ -12,4 +12,8 @@ public interface RunwayRepository extends CrudRepository<Runway, Long> {
     List<Runway> findByAirportId(Long airportId);
 
     List<Runway> findByAirportIdIn(List<Long> airportIds);
+
+    List<Runway> findByCountryId(Long countryId);
+
+    List<Runway> findByCountryIdIn(List<Long> countryIds);
 }

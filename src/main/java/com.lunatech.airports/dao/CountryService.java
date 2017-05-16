@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -35,9 +34,9 @@ public class CountryService {
         return Optional.ofNullable(country);
     }
 
-    public List<Country> topTenCountriesWithHighestNumberOfAirports() {
-        List<Long> countryIds = airportRepository.countriesWithHighestNumberOfAirports().stream().limit(10).collect(Collectors.toList());
-        log.debug("topTenCountriesWithHighestNumberOfAirports => {}", countryIds);
+    public List<Country> topTenCountriesWithMostNumberOfAirports() {
+        List<Long> countryIds = airportRepository.countriesWithMostNumberOfAirports().stream().limit(10).collect(Collectors.toList());
+        log.debug("topTenCountriesWithMostNumberOfAirports => {}", countryIds);
         return countryRepository.findByIdIn(countryIds);
     }
 

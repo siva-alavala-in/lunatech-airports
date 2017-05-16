@@ -59,8 +59,8 @@ public class AirportRepositoryTests {
     }
 
     @Test
-    public void testCountriesWithHighestNumberOfAirports() {
-        assertThat(repository.countriesWithHighestNumberOfAirports()).containsSequence(302634L, 302708L);
+    public void testCountriesWithMostNumberOfAirports() {
+        assertThat(repository.countriesWithMostNumberOfAirports()).containsSequence(302634L, 302708L);
     }
 
     @Test

@@ -43,13 +43,13 @@ public class ReportController {
     @RequestMapping("/report")
     public String report(Model model) {
         log.info("Report");
-        List<Country> countriesWithHighestAirports = countryService.topTenCountriesWithHighestNumberOfAirports();
-        log.info("countriesWithHighestAirports => {}", countriesWithHighestAirports);
+        List<Country> countriesWithMostAirports = countryService.topTenCountriesWithMostNumberOfAirports();
+        log.info("countriesWithMostAirports => {}", countriesWithMostAirports);
         List<Country> countriesWithLeastAirports = countryService.topTenCountriesWithLeastNumberOfAirports();
         log.info("countriesWithLeastAirports => {}", countriesWithLeastAirports);
         Map<String, List<CountryRunwayStats>> results = new HashMap<>();
-        results.put("Height Airports", getStats(countriesWithHighestAirports));
-        results.put("Least Airports", getStats(countriesWithLeastAirports));
+        results.put("Most Airports", getStatsFast(countriesWithMostAirports));
+        results.put("Least Airports", getStatsFast(countriesWithLeastAirports));
         model.addAttribute("results", results);
         log.info("Returning {}", results);
         return "report";
@@ -82,10 +82,34 @@ public class ReportController {
             airportMap.put(a.getId(), a);
 
         });
-        List<Runway> runways = runwayService.fetchRunways(airports);
+        List<Runway> runways = runwayService.fetchRunwaysForAirports(airports);
         runways.forEach(r -> {
             airportMap.get(r.getAirportId()).getRunways().add(r);
         });
     }
+
+    public Map<Long, List<Runway>> runwaysForCountries(List<Country> countries) {
+        Map<Long, List<Runway>> results = new HashMap<>();
+        countries.forEach(c -> results.put(c.getId(), new ArrayList<>()));
+
+        List<Runway> runways = runwayService.fetchRunwaysForCountries(countries);
+        runways.forEach(r -> results.get(r.getCountryId()).add(r));
+
+        return results;
+    }
+
+    public List<CountryRunwayStats> getStatsFast(List<Country> countries) {
+        Map<Long, List<Runway>> runways = runwaysForCountries(countries);
+        return countries.stream().map(c -> {
+            CountryRunwayStats stats = new CountryRunwayStats(c);
+            Stream<Runway> countryRunways = runways.get(c.getId()).stream();
+            stats.runways = countryRunways.map(r -> r.getSurface()).filter(r -> !r.isEmpty()).collect(Collectors.toSet());
+            // Map<Long, String> identificationCountMap = new TreeMap<>();
+            // countryRunways.map(r -> r.getLe_ident()).collect(Collectors.groupingBy(Function.identity(), Collectors.counting())).forEach((x, y) -> identificationCountMap.);
+            // stats.runwayIdentifications = null;
+            return stats;
+        }).collect(Collectors.toList());
+    }
+
 
 }

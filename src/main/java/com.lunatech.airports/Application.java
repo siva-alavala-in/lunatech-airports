@@ -66,7 +66,7 @@ public class Application {
 
     void saveRunways() throws IOException {
         CsvUtils.readCsv("runways.csv").parallelStream().forEach(row -> {
-            Runway runway = Runway.from(row);
+            Runway runway = Runway.from(row, (airportId) -> airportRepository.findOne(airportId).getCountryId());
             log.debug("Saving {}", runway);
             runwayRepository.save(runway);
         });

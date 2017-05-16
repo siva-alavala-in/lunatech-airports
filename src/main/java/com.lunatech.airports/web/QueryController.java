@@ -14,9 +14,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.websocket.server.PathParam;
 import java.util.*;
 
+/**
+ * MVC Controller for handling Query on Country
+ */
 @Slf4j
 @Controller
 public class QueryController {
@@ -59,7 +61,7 @@ public class QueryController {
             airportMap.put(a.getId(), a);
             a.setRunways(new ArrayList<>());
         });
-        List<Runway> runways = runwayService.fetchRunways(airports);
+        List<Runway> runways = runwayService.fetchRunwaysForAirports(airports);
         runways.forEach(r -> airportMap.get(r.getAirportId()).getRunways().add(r));
         model.addAttribute("country", country);
         model.addAttribute("airports", airports);

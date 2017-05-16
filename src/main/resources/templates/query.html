@@ -45,25 +45,27 @@
             <strong>Warning!</strong> <span th:text="${error}">Error</span>
         </div>
         <div th:if="${country} != null">
-            <p th:text="'Results for ' + ${country.name}"></p>
-            <div class="container">
-                <div class="row">
-                    <div class="col-3">Airport</div>
-                </div>
-                <div th:each="airport : ${airports}">
-                    <div class="row">
-                        <div class="col-3" th:text="${airport.name}">Name</div>
-                        <div class="col-3" th:text="${airport.type}">Type</div>
-                        <div class="col-6" th:text="${airport.homeLink}">Link</div>
-                    </div>
-                    <div class="row" th:each="runway : ${airport.runways}">
-                        <div class="col-3" th:text="${runway.lengthFt}">Length</div>
-                        <div class="col-3" th:text="${runway.widthFt}">Width</div>
-                        <div class="col-3" th:text="${runway.surface}">Surface</div>
-                    </div>
-                </div>
+            <h2 th:text="'Results for ' + ${country.name}">Country</h2>
 
+            <div class="table-responsive">
+                <table class="table">
+                    <tbody>
+                    <div th:each="airport : ${airports}">
+                        <tr class="active">
+                            <td th:text="${airport.name}">Coutry</td>
+                            <td th:text="${airport.type}">Type</td>
+                            <td><a th:href="${airport.homeLink}" th:text="${airport.homeLink}">Link</a></td>
+                        </tr>
+                        <tr th:each="runway : ${airport.runways}">
+                            <td th:text="${runway.lengthFt}">Length</td>
+                            <td th:text="${runway.widthFt}">Width</td>
+                            <td th:text="${runway.surface}">Surface</td>
+                        </tr>
+                    </div>
+                    </tbody>
+                </table>
             </div>
+
         </div>
     </div>
 </div>

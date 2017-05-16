@@ -24,7 +24,7 @@ public class RunwayRepositoryTests {
     private TestEntityManager entityManager;
 
     private Runway sampleRunway() {
-        return Runway.builder().id(30356).airportId(1L).build();
+        return Runway.builder().id(1).airportId(1L).countryId(1L).build();
     }
 
     @Before
@@ -44,6 +44,20 @@ public class RunwayRepositoryTests {
         assertThat(repository.findByAirportIdIn(Collections.singletonList(1L))).containsOnly(sampleRunway());
         assertThat(repository.findByAirportIdIn(Collections.singletonList(2L))).isEmpty();
         assertThat(repository.findByAirportIdIn(Collections.emptyList())).isEmpty();
+    }
+
+
+    @Test
+    public void testFindByCountryId() throws Exception {
+        assertThat(repository.findByCountryId(1L)).containsOnly(sampleRunway());
+        assertThat(repository.findByCountryId(2L)).isEmpty();
+    }
+
+    @Test
+    public void testFindByCountryIdIn() throws Exception {
+        assertThat(repository.findByCountryIdIn(Collections.singletonList(1L))).containsOnly(sampleRunway());
+        assertThat(repository.findByCountryIdIn(Collections.singletonList(2L))).isEmpty();
+        assertThat(repository.findByCountryIdIn(Collections.emptyList())).isEmpty();
     }
 
 }
