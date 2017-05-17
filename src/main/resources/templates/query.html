@@ -49,14 +49,30 @@
 
             <div class="table-responsive">
                 <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Airport Name</th>
+                            <th>Airport Type</th>
+                            <th>Link</th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <th>Identification</th>
+                            <th>Length</th>
+                            <th>Width</th>
+                            <th>Surface</th>
+                        </tr>
+                    </thead>
                     <tbody>
                     <div th:each="airport : ${airports}">
                         <tr class="active">
-                            <td th:text="${airport.name}">Coutry</td>
+                            <td th:text="${airport.name}">Airport</td>
                             <td th:text="${airport.type}">Type</td>
                             <td><a th:href="${airport.homeLink}" th:text="${airport.homeLink}">Link</a></td>
+                            <th></th>
                         </tr>
                         <tr th:each="runway : ${airport.runways}">
+                            <td th:text="${runway.le_ident}">le_ident</td>
                             <td th:text="${runway.lengthFt}">Length</td>
                             <td th:text="${runway.widthFt}">Width</td>
                             <td th:text="${runway.surface}">Surface</td>
