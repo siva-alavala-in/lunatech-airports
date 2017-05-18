@@ -37,7 +37,7 @@ public class Application {
 
     @Bean
     @Profile("!test")
-    public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
+    public CommandLineRunner bootstrap(ApplicationContext ctx) {
         return args -> {
             if (!countryRepository.findAll().iterator().hasNext()) {
                 saveCountries();

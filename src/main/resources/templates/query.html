@@ -53,8 +53,7 @@
                         <tr>
                             <th>Airport Name</th>
                             <th>Airport Type</th>
-                            <th>Link</th>
-                            <th></th>
+                            <th colspan="2">Link</th>
                         </tr>
                         <tr>
                             <th>Identification</th>
@@ -68,8 +67,7 @@
                         <tr class="active">
                             <td th:text="${airport.name}">Airport</td>
                             <td th:text="${airport.type}">Type</td>
-                            <td><a th:href="${airport.homeLink}" th:text="${airport.homeLink}">Link</a></td>
-                            <th></th>
+                            <td colspan="2"><a th:href="${airport.homeLink}" th:text="${airport.homeLink}">Link</a></td>
                         </tr>
                         <tr th:each="runway : ${airport.runways}">
                             <td th:text="${runway.le_ident}">le_ident</td>
