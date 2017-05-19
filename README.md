@@ -6,6 +6,11 @@ Lunatech Labs Assignment
 mvn spring-boot:run
 ```
 
+## Test Report
+```
+mvn surefire-report:report
+```
+
 ## Bonus features implemented
 1. Partial/fuzzy Country Name
 2. Top 10 most common runway identifications
